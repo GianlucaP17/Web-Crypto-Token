@@ -5,15 +5,15 @@ import Iter "mo:base/Iter";
 
 actor Token {
 
-  let owner : Principal = Principal.fromText("<REPLACE WITH YOUR PRINCIPAL>");
-  let totalSupply : Nat = 1000000000;
+  let owner : Principal = Principal.fromText("<REPLACE WITH YOUR OWN COMMAND LINE PRINCIPAL SEE README>");
+  let totalSupply : Nat = 1000000000000000;
   let symbol : Text = "DANG";
 
   private stable var balanceEntries : [(Principal, Nat)] = [];
   private var balances = HashMap.HashMap<Principal, Nat>(1, Principal.equal, Principal.hash);
   if (balances.size() < 1) {
-    balances.put(owner, totalSupply);
-  };
+      balances.put(owner, totalSupply);
+    };
     
   public query func balanceOf(who: Principal) : async Nat {
 
@@ -32,7 +32,7 @@ actor Token {
   public shared(msg) func payOut() : async Text {
     Debug.print(debug_show(msg.caller));
     if (balances.get(msg.caller) == null) {
-      let amount = 10000;
+      let amount = 100;
       let result = await transfer(msg.caller, amount);
       return result;
     } else {
@@ -54,6 +54,7 @@ actor Token {
     } else {
       return "Insufficient Funds"
     }
+    
   };
 
   system func preupgrade() {
